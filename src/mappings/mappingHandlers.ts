@@ -39,7 +39,7 @@ export async function handleBalanceTransferSummaryEvent(event: SubstrateEvent): 
   receiveEntity.countTransferIn += BigInt(1);
   receiveEntity.avgTransferIn = receiveEntity.totalTransferIn / receiveEntity.countTransferIn;
   //receiveEntity.transfersIn.push(BigInt(amount.toString()));
-  //receiveEntity.medianTransferIn += BigInt(0);
+  //receiveEntity.medianTransferIn=median(receiveEntity.transfersIn);
   
   await receiveEntity.save();
 
