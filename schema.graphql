@@ -1,0 +1,23 @@
+type BalanceTransferSummary @entity {
+
+  id: ID! #id is a required field
+
+  totalTransferIn: BigInt!
+  countTransferIn: BigInt!
+  avgTransferIn: BigInt!
+  medianTransferIn: BigInt!
+  totalTransferOut: BigInt!
+  countTransferOut: BigInt!
+  avgTransferOut: BigInt!
+  medianTransferOut: BigInt!
+  transfersIn: [Transfer] @derivedFrom(field: "to")
+  transfersOut: [Transfer] @derivedFrom(field: "from")
+
+}
+
+type  Transfer @entity {
+  id: ID!
+  amount: BigInt 
+  to: BalanceTransferSummary!
+  from:  BalanceTransferSummary!
+}
