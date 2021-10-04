@@ -5,19 +5,11 @@ type BalanceTransferSummary @entity {
   totalTransferIn: BigInt!
   countTransferIn: BigInt!
   avgTransferIn: BigInt!
-  medianTransferIn: BigInt!
   totalTransferOut: BigInt!
   countTransferOut: BigInt!
   avgTransferOut: BigInt!
+  medianTransferIn: BigInt!
   medianTransferOut: BigInt!
-  transfersIn: [Transfer] @derivedFrom(field: "to")
-  transfersOut: [Transfer] @derivedFrom(field: "from")
-
-}
-
-type  Transfer @entity {
-  id: ID!
-  amount: BigInt 
-  to: BalanceTransferSummary!
-  from:  BalanceTransferSummary!
+  transfersIn: [BigInt]
+  transfersOut: [BigInt]
 }

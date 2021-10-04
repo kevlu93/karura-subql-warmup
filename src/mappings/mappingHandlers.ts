@@ -37,6 +37,7 @@ export async function handleBalanceTransferSummaryEvent(event: SubstrateEvent): 
     await receiveEntity.save();
   }
 
+
   let giveEntity = await BalanceTransferSummary.get(from.toString());
   if (giveEntity == undefined) {
     giveEntity = createBalanceTransferSummary(from.toString());
@@ -66,7 +67,6 @@ export async function handleBalanceTransferSummaryEvent(event: SubstrateEvent): 
   giveEntity.avgTransferOut = giveEntity.totalTransferOut / giveEntity.countTransferOut;
   let transfersOut = await Transfer.getByFromId(from.toString());
   receiveEntity.medianTransferOut = median(transfersOut.map(t => t.amount));
-  
   await giveEntity.save();
 
 }

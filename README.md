@@ -23,17 +23,14 @@ Write the following query into the query editor and press play. If you see data 
 
 ```graphql
 query {
-  tokenTransfers(first: 10) {
+  balanceTransferSummaries(first: 10) {
     nodes {
-      to
-      from
-      amount
-      token
+      id
+      totalTransferIn
+      avgTransferIn
+      totalTransferOut
+      avgTransferOut
     }
   }
 }
 ```
-
-## Next Steps
-
-This project is just to get you started building with Subquery for Acala/Karura. You'll want to read through the [Subquery docs](https://doc.subquery.network/) for more information on how to build out your own custom handlers.
