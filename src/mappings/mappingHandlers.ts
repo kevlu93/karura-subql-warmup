@@ -3,6 +3,12 @@ import { BalanceTransferSummary } from "../types";
 //import {Transfer} from "../types/models/Transfer";
 import { Balance } from "@polkadot/types/interfaces";
 
+const median = (arr) => {
+  const mid = Math.floor(arr.length / 2),
+    nums = [...arr].sort((a, b) => a - b);
+  return arr.length % 2 !== 0 ? nums[mid] : (nums[mid - 1] + nums[mid]) / 2;
+};
+
 function createBalanceTransferSummary(accountId: string): BalanceTransferSummary {
   const entity = new BalanceTransferSummary(accountId);
   entity.totalTransferIn = BigInt(0);
@@ -12,9 +18,9 @@ function createBalanceTransferSummary(accountId: string): BalanceTransferSummary
   entity.avgTransferIn = BigInt(0);
   entity.avgTransferOut = BigInt(0);
   entity.medianTransferIn = BigInt(0);
-  //entity.medianTransferOut = BigInt(0);
-  //entity.transfersIn = [];
-  //entity.transfersOut = [];
+  entity.medianTransferOut = BigInt(0);
+  entity.transfersIn = entity.transfersIn || [];
+  entity.transfersOut = entity.transfersOut || [];
   return entity;
 }
 
@@ -38,8 +44,8 @@ export async function handleBalanceTransferSummaryEvent(event: SubstrateEvent): 
   receiveEntity.totalTransferIn += BigInt(amount.toString());
   receiveEntity.countTransferIn += BigInt(1);
   receiveEntity.avgTransferIn = receiveEntity.totalTransferIn / receiveEntity.countTransferIn;
-  //receiveEntity.transfersIn.push(BigInt(amount.toString()));
-  //receiveEntity.medianTransferIn=median(receiveEntity.transfersIn);
+  receiveEntity.transfersIn.push(BigInt(amount.toString()));
+  receiveEntity.medianTransferIn=median(receiveEntity.transfersIn);
   
   await receiveEntity.save();
 
@@ -51,8 +57,8 @@ export async function handleBalanceTransferSummaryEvent(event: SubstrateEvent): 
   giveEntity.totalTransferOut += BigInt(amount.toString());
   giveEntity.countTransferOut += BigInt(1);
   giveEntity.avgTransferOut = giveEntity.totalTransferOut / giveEntity.countTransferOut;
-  //giveEntity.transfersOut.push(BigInt(amount.toString()));
-  //giveEntity.medianTransferOut= median(giveEntity.transfersOut);
+  giveEntity.transfersOut.push(BigInt(amount.toString()));
+  giveEntity.medianTransferOut= median(giveEntity.transfersOut);
 
   await giveEntity.save();
 }

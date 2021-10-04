@@ -9,4 +9,7 @@ type BalanceTransferSummary @entity {
   countTransferOut: BigInt!
   avgTransferOut: BigInt!
   medianTransferIn: BigInt!
+  medianTransferOut: BigInt!
+  transfersIn: [BigInt]
+  transfersOut: [BigInt]
 }
