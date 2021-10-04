@@ -3,7 +3,7 @@ description: ''
 repository: ''
 schema: ./schema.graphql
 network:
-  endpoint: wss://karura.api.onfinality.io/public-ws
+  endpoint: wss://acala-mandala.api.onfinality.io/public-ws
   typesAlias: &ref_57
     stakingPool:
       Phase: StakingPoolPhase
