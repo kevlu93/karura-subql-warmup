@@ -2,6 +2,8 @@ type BalanceTransferSummary @entity {
 
   id: ID! #id is a required field
 
+  totalTransfers: BigInt!
+  totalTransferVolume: BigInt!
   totalTransferIn: BigInt!
   countTransferIn: BigInt!
   avgTransferIn: BigInt!

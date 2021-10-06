@@ -11,6 +11,8 @@ const median = (arr: BigInt[]) => {
 
 function createBalanceTransferSummary(accountId: string): BalanceTransferSummary {
   const entity = new BalanceTransferSummary(accountId);
+  entity.totalTransfers = BigInt(0);
+  entity.totalTransferVolume = BigInt(0);
   entity.totalTransferIn = BigInt(0);
   entity.countTransferIn = BigInt(0);
   entity.avgTransferIn = BigInt(0);
@@ -54,6 +56,8 @@ export async function handleBalanceTransferSummaryEvent(event: SubstrateEvent): 
   await transferInfo.save();
 
   //Now we can update the summary statistics for the from and to accounts
+  receiveEntity.totalTransfers++;
+  receiveEntity.totalTransferVolume += BigInt(amount.toString());
   receiveEntity.totalTransferIn += BigInt(amount.toString());
   receiveEntity.countTransferIn += BigInt(1);
   receiveEntity.avgTransferIn = receiveEntity.totalTransferIn / receiveEntity.countTransferIn;
@@ -61,6 +65,8 @@ export async function handleBalanceTransferSummaryEvent(event: SubstrateEvent): 
   receiveEntity.medianTransferIn = median(transfersIn.map(t => t.amount));
   await receiveEntity.save();
 
+  giveEntity.totalTransfers++;
+  giveEntity.totalTransferVolume += BigInt(amount.toString());
   giveEntity.totalTransferOut += BigInt(amount.toString());
   giveEntity.countTransferOut += BigInt(1);
   giveEntity.avgTransferOut = giveEntity.totalTransferOut / giveEntity.countTransferOut;
